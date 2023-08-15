@@ -1,7 +1,6 @@
-﻿using System;
-namespace SmokeTestDataImport.Models
+﻿namespace SmokeTestDataImport.Models
 {
-	public class SmokeDefect
+    public class SmokeDefect
 	{
 		public int Id { get; set; }
         public string DefectTyp { get; set; }

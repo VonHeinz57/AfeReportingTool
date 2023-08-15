@@ -1,11 +1,10 @@
-﻿using System;
-using SmokeTestDataImport.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SmokeTestDataImport.Configs;
+using SmokeTestDataImport.Models;
 
 namespace SmokeTestDataImport.Data
 {
-	public class SmokeTestingDbContext : DbContext
+    public class SmokeTestingDbContext : DbContext
 	{
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
