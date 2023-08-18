@@ -4,7 +4,10 @@ namespace SmokeTestDataImport.Configs
 {
     public class AppConfiguration
     {
-        public string ConnectionString { get; }
+        public string connectionString { get; }
+        public string workingDirectory { get; }
+        public string archiveDirectory { get; }
+
 
         public AppConfiguration(string configFile = "Configs/appsettings.json")
         {
@@ -13,7 +16,9 @@ namespace SmokeTestDataImport.Configs
                 .AddJsonFile(configFile)
                 .Build();
 
-            ConnectionString = configuration.GetSection("SmokeTestingDb").Value;
+            connectionString = configuration.GetSection("SmokeTestingDb").Value;
+            workingDirectory = configuration.GetSection("WorkingDirectory").Value;
+            archiveDirectory = configuration.GetSection("WorkingDirectory").Value;
         }
     }
 

@@ -2,7 +2,7 @@
 {
     public class SmokeDefect
 	{
-		public int Id { get; set; }
+		public int ProjectId { get; set; }
         public string DefectTyp { get; set; }
         public string Location { get; set; }
         public string SmokeRate { get; set; }
