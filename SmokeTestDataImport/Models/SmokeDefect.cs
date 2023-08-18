@@ -2,7 +2,8 @@
 {
     public class SmokeDefect
 	{
-		public int ProjectId { get; set; }
+        public int Id { get; set; }
+        public int ProjectId { get; set; }
         public string DefectTyp { get; set; }
         public string Location { get; set; }
         public string SmokeRate { get; set; }
@@ -23,10 +24,10 @@
         public int? ExtraPho3 { get; set; }
         public int UniqueId { get; set; }
         public DateOnly GpsDate { get; set; }
-        public TimeOnly GpsTime { get; set; }
-        public float GnssHeigh { get; set; }
-        public float Northing { get; set; }
-        public float Easting { get; set; }
+        public string? GpsTime { get; set; }
+        public double GnssHeigh { get; set; }
+        public double Northing { get; set; }
+        public double Easting { get; set; }
     }
 }
 

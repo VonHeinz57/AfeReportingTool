@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SmokeTestDataImport.Data;
@@ -11,9 +12,11 @@ using SmokeTestDataImport.Data;
 namespace SmokeTestDataImport.Migrations
 {
     [DbContext(typeof(SmokeTestingDbContext))]
-    partial class SmokeTestingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230818214034_UpdateGpsTimeToString")]
+    partial class UpdateGpsTimeToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,8 +48,8 @@ namespace SmokeTestDataImport.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("Easting")
-                        .HasColumnType("double precision");
+                    b.Property<float>("Easting")
+                        .HasColumnType("real");
 
                     b.Property<int?>("ExtraPho2")
                         .HasColumnType("integer");
@@ -66,8 +69,8 @@ namespace SmokeTestDataImport.Migrations
                     b.Property<string>("GeneralCo")
                         .HasColumnType("text");
 
-                    b.Property<double>("GnssHeigh")
-                        .HasColumnType("double precision");
+                    b.Property<float>("GnssHeigh")
+                        .HasColumnType("real");
 
                     b.Property<DateOnly>("GpsDate")
                         .HasColumnType("date");
@@ -83,8 +86,8 @@ namespace SmokeTestDataImport.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("Northing")
-                        .HasColumnType("double precision");
+                    b.Property<float>("Northing")
+                        .HasColumnType("real");
 
                     b.Property<double?>("OffsetBea")
                         .HasColumnType("double precision");
