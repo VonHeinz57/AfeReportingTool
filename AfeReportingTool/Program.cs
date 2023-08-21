@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using SmokeTestDataImport.Configs;
 using SmokeTestDataImport.Data;
-using SmokeTestDataImport.Services;
 
 class Program
 {
@@ -25,7 +24,5 @@ class Program
 
             smokeTestImportService.ImportFiles(dbContext);
         }
-
-        
     }
 }
