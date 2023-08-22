@@ -7,6 +7,9 @@ namespace SmokeTestDataImport.Configs
         public string connectionString { get; }
         public string workingDirectory { get; }
         public string archiveDirectory { get; }
+        public string photoDirectory { get; }
+        public string photoArchiveDirectory { get; }
+        public string outputDirectory { get; }
         public string dataSheetFormat { get; }
 
 
@@ -21,6 +24,9 @@ namespace SmokeTestDataImport.Configs
 
             workingDirectory = configuration.GetSection("WorkingDirectory").Value;
             archiveDirectory = configuration.GetSection("ArchiveDirectory").Value;
+            photoDirectory = configuration.GetSection("PhotosDirectory").Value;
+            photoArchiveDirectory = configuration.GetSection("PhotoArchiveDirectory").Value;
+            outputDirectory = configuration.GetSection("OutputDirectory").Value;
 
             //Indexes on Smoke Data files
             dataSheetFormat = configuration.GetSection("DataSheetFormat").Value;

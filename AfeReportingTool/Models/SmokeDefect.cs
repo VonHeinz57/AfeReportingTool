@@ -28,6 +28,7 @@
         public double GnssHeigh { get; set; }
         public double Northing { get; set; }
         public double Easting { get; set; }
+        public int IsProcessed { get; set; }
     }
 }
 

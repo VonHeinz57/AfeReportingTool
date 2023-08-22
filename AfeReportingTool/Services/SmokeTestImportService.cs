@@ -74,6 +74,7 @@ public class SmokeTestImportService : ISmokeTestImportService
                         GnssHeigh = (double)worksheet.Cells[row, Array.IndexOf(indexes, "Gnss_Heigh") + 1].Value,
                         Northing = (double)worksheet.Cells[row, Array.IndexOf(indexes, "Northing") + 1].Value,
                         Easting = (double)worksheet.Cells[row, Array.IndexOf(indexes, "Easting") + 1].Value,
+                        IsProcessed = 0
                     };
                     smokeDefects.Add(data);
                 }

@@ -1,9 +1,8 @@
-﻿using System;
-using SmokeTestDataImport.Data;
+﻿using SmokeTestDataImport.Data;
 
 namespace SmokeTestDataImport.Services
 {
-	public interface ISmokeTestImportService
+    public interface ISmokeTestImportService
 	{
 		public void ImportFiles(SmokeTestingDbContext _dbContext);
 

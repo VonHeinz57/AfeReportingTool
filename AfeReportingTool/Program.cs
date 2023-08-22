@@ -2,17 +2,20 @@
 using Microsoft.Extensions.DependencyInjection;
 using SmokeTestDataImport.Configs;
 using SmokeTestDataImport.Data;
+using AfeReportingTool.Services;
 
 class Program
 {
     static void Main(string[] args)
     {
         var connectionString = new AppConfiguration().connectionString;
+        var outputDirectory = new AppConfiguration().outputDirectory;
 
         var services = new ServiceCollection();
         services.AddDbContext<SmokeTestingDbContext>(options =>
             options.UseNpgsql(connectionString));
         services.AddScoped<SmokeTestImportService>();
+        services.AddScoped<SmokeTestExportService>();
 
 
         var serviceProvider = services.BuildServiceProvider();
@@ -21,9 +24,10 @@ class Program
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<SmokeTestingDbContext>();
             var smokeTestImportService = scope.ServiceProvider.GetRequiredService<SmokeTestImportService>();
+            var smokeTestExportService = scope.ServiceProvider.GetRequiredService<SmokeTestExportService>();
 
             smokeTestImportService.ImportFiles(dbContext);
+            smokeTestExportService.ExportReports(outputDirectory, dbContext);
         }
     }
-    //test
 }
