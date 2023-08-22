@@ -15,7 +15,9 @@ namespace AfeReportingTool.Services
 
             foreach(SmokeDefect defect in defectsForReport)
             {
-                GeneratePdf(defect, outputDirectory);
+                var reportName = $"{defect.UniqueId}_{defect.Location}.pdf";
+
+                GeneratePdf(defect, outputDirectory, reportName);
             }
         }
 
@@ -28,7 +30,7 @@ namespace AfeReportingTool.Services
             return defectsforReport;
         }
 
-        public void GeneratePdf(SmokeDefect defect, string outputDirectory)
+        public void GeneratePdf(SmokeDefect defect, string outputDirectory, string reportName)
         {
             PdfDocument report = new PdfDocument();
 
@@ -40,7 +42,16 @@ namespace AfeReportingTool.Services
             XRect rect = new XRect(50, 100, page.Width - 100, page.Height - 200);
             gfx.DrawString(data, font, XBrushes.Black, rect, XStringFormats.TopLeft);
 
-            report.Save(outputDirectory);
+            try
+            {
+                report.Save(Path.Combine(outputDirectory, reportName));
+            }
+            catch (Exception ex)
+            {
+                string currentUser = Environment.UserName;
+                Console.WriteLine(currentUser);
+                Console.WriteLine("Exception: " + ex.ToString());
+            }
         }
 
         public void ArchiveImages(string imageToArchive, string imageArchiveDirectory)

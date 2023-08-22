@@ -9,7 +9,7 @@ namespace AfeReportingTool.Services
 
         public List<SmokeDefect> SelectDefectsToExport(SmokeTestingDbContext _dbContext);
 
-        public void GeneratePdf(SmokeDefect defect, string outputDirectory);
+        public void GeneratePdf(SmokeDefect defect, string outputDirectory, string reportName);
 
 		public void ArchiveImages(string imageToArchive, string imageArchiveDirectory);
 	}
