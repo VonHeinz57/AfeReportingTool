@@ -97,7 +97,7 @@ public class SmokeTestImportService : ISmokeTestImportService
 
     public void ArchiveFile(string fileToArchive, string workingDirectory, string archiveDirectory)
     {
-        File.Move(Path.Combine(workingDirectory, fileToArchive), Path.Combine(archiveDirectory, fileToArchive));
+        //File.Move(Path.Combine(workingDirectory, fileToArchive), Path.Combine(archiveDirectory, fileToArchive));
     }
 
 }

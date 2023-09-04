@@ -1,4 +1,5 @@
-﻿using PdfSharpCore.Drawing;
+﻿using AfeReportingTool.Templates;
+using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 using SmokeTestDataImport.Data;
 using SmokeTestDataImport.Models;
@@ -8,6 +9,13 @@ namespace AfeReportingTool.Services
     public class SmokeTestExportService : ISmokeTestExportService
 	{
 		private readonly SmokeTestingDbContext _dbContext;
+        private readonly SmokeTestReportTemplate _template;
+
+        public SmokeTestExportService(SmokeTestingDbContext dbContext, SmokeTestReportTemplate template)
+        {
+            _dbContext = dbContext;
+            _template = template;
+        }
 
         public void ExportReports(string outputDirectory, SmokeTestingDbContext _dbContext)
         {
@@ -17,7 +25,7 @@ namespace AfeReportingTool.Services
             {
                 var reportName = $"{defect.UniqueId}_{defect.Location}.pdf";
 
-                GeneratePdf(defect, outputDirectory, reportName);
+                GeneratePdf(defect, outputDirectory, reportName, _template);
             }
         }
 
@@ -30,18 +38,12 @@ namespace AfeReportingTool.Services
             return defectsforReport;
         }
 
-        public void GeneratePdf(SmokeDefect defect, string outputDirectory, string reportName)
+        public void GeneratePdf(SmokeDefect defect, string outputDirectory, string reportName, SmokeTestReportTemplate _template)
         {
-            PdfDocument report = new PdfDocument();
 
-            PdfPage page = report.AddPage();
-            XGraphics gfx = XGraphics.FromPdfPage(page);
+            var report = _template.FormatDefectReport(defect);
 
-            var data = $"Defect ID: {defect.UniqueId}\nLocation: {defect.Location}\nSmoke Rate: {defect.SmokeRate}";
-            XFont font = new XFont("Arial", 12);
-            XRect rect = new XRect(50, 100, page.Width - 100, page.Height - 200);
-            gfx.DrawString(data, font, XBrushes.Black, rect, XStringFormats.TopLeft);
-
+            //enhancement - zip up all files
             try
             {
                 report.Save(Path.Combine(outputDirectory, reportName));

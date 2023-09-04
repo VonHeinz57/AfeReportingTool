@@ -1,4 +1,5 @@
-﻿using SmokeTestDataImport.Data;
+﻿using AfeReportingTool.Templates;
+using SmokeTestDataImport.Data;
 using SmokeTestDataImport.Models;
 
 namespace AfeReportingTool.Services
@@ -9,7 +10,7 @@ namespace AfeReportingTool.Services
 
         public List<SmokeDefect> SelectDefectsToExport(SmokeTestingDbContext _dbContext);
 
-        public void GeneratePdf(SmokeDefect defect, string outputDirectory, string reportName);
+        public void GeneratePdf(SmokeDefect defect, string outputDirectory, string reportName, SmokeTestReportTemplate _template);
 
 		public void ArchiveImages(string imageToArchive, string imageArchiveDirectory);
 	}
