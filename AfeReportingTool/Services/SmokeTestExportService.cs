@@ -20,13 +20,11 @@ namespace AfeReportingTool.Services
         public void ExportReports(string outputDirectory, SmokeTestingDbContext _dbContext)
         {
             var defectsForReport = SelectDefectsToExport(_dbContext);
+            
+            var reportName = $"FranklinTnSept2023.pdf";
 
-            foreach(SmokeDefect defect in defectsForReport)
-            {
-                var reportName = $"{defect.UniqueId}_{defect.Location}.pdf";
-
-                GeneratePdf(defect, outputDirectory, reportName, _template);
-            }
+            GeneratePdf(defectsForReport, outputDirectory, reportName, _template);
+            
         }
 
         public List<SmokeDefect> SelectDefectsToExport(SmokeTestingDbContext _dbContext)
@@ -38,10 +36,14 @@ namespace AfeReportingTool.Services
             return defectsforReport;
         }
 
-        public void GeneratePdf(SmokeDefect defect, string outputDirectory, string reportName, SmokeTestReportTemplate _template)
+        public void GeneratePdf(List<SmokeDefect> defects, string outputDirectory, string reportName, SmokeTestReportTemplate _template)
         {
+            var report = new PdfDocument();
 
-            var report = _template.FormatDefectReport(defect);
+            foreach (SmokeDefect defect in defects)
+            {
+                _template.FormatDefectReport(defect, report);
+            }
 
             //enhancement - zip up all files
             try

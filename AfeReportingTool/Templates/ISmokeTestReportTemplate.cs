@@ -6,7 +6,7 @@ namespace AfeReportingTool.Templates
 {
 	public interface ISmokeTestReportTemplate
 	{
-        public PdfDocument FormatDefectReport(SmokeDefect defect);
+        public PdfPage FormatDefectReport(SmokeDefect defect, PdfDocument report);
 
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection.PortableExecutable;
+using System.Text;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Fonts;
 using PdfSharpCore.Pdf;
@@ -10,11 +12,9 @@ namespace AfeReportingTool.Templates
 	public class SmokeTestReportTemplate : ISmokeTestReportTemplate
 	{
         //enhancement - generalize some of the variables here. storing a ton of strings which get kept in memory for long time
-		public PdfDocument FormatDefectReport(SmokeDefect defect)
+		public PdfPage FormatDefectReport(SmokeDefect defect, PdfDocument report)
         {
             var photoDir = new AppConfiguration().photoDirectory;
-
-            var report = new PdfDocument();
 
             var page = report.AddPage();
             var gfx = XGraphics.FromPdfPage(page);
@@ -123,20 +123,35 @@ namespace AfeReportingTool.Templates
 
             //Comments
             var comments = $"Comments: {defect.GeneralCo}";
-            var commentsXPos = addressLocXPos;
-            var commentsYPos = datetimeYPos + defectDetailsDataTextSize;
 
-            gfx.DrawString(comments, defectDetailsDataFont, XBrushes.Black, commentsXPos, commentsYPos);
+            var commentWidth = gfx.MeasureString(comments, defectDetailsDataFont).Width;
+            var maxWidth = headerWidth - leftAlign;
+
+            if (commentWidth > maxWidth)
+            {
+                var commentLines = SplitText(comments, defectDetailsDataFont, gfx, maxWidth);
+
+                var currentY = datetimeYPos + defectDetailsDataTextSize;
+                foreach (var line in commentLines)
+                {
+                    gfx.DrawString(line, defectDetailsDataFont, XBrushes.Black, addressLocXPos, currentY);
+                    currentY += gfx.MeasureString(line, defectDetailsDataFont).Height;
+                }
+            }
+            else
+            {
+                gfx.DrawString(comments, defectDetailsDataFont, XBrushes.Black, addressLocXPos, datetimeYPos + defectDetailsDataTextSize);
+            }
 
             //Area Photo - header
             var areaPhotoHeader = $"Area Photo";
             var areaPhotoHeaderXPos = addressLocXPos;
-            var areaPhotoHeaderYPos = commentsYPos + defectDetailsDataTextSize*2;
+            var areaPhotoHeaderYPos = datetimeYPos + defectDetailsDataTextSize*3;
 
             //Zoom Photo - header
             var zoomPhotoHeader = $"Zoom Photo";
             var zoomPhotoHeaderXPos = runoffPotXPos;
-            var zoomPhotoHeaderYPos = commentsYPos + defectDetailsDataTextSize * 2;
+            var zoomPhotoHeaderYPos = datetimeYPos + defectDetailsDataTextSize * 3;
 
             gfx.DrawString(areaPhotoHeader, defectDetailsDataFont, XBrushes.Black, areaPhotoHeaderXPos, areaPhotoHeaderYPos);
             gfx.DrawString(zoomPhotoHeader, defectDetailsDataFont, XBrushes.Black, zoomPhotoHeaderXPos, zoomPhotoHeaderYPos);
@@ -223,8 +238,45 @@ namespace AfeReportingTool.Templates
             gfx.DrawString(logo, footerFont, XBrushes.Black, logoXPos, footerYPos);
             gfx.DrawString(dateFoot, footerFont, XBrushes.Black, dateXPos, footerYPos);
 
-            return report;
+            return page;
         }
-	}
+
+        // Function to split text at the nearest space
+        List<string> SplitText(string text, XFont font, XGraphics gfx, double maxWidth)
+        {
+            var words = text.Split(' ');
+            var lines = new List<string>();
+            var currentLine = new StringBuilder();
+
+            foreach (var word in words)
+            {
+                var testLine = new StringBuilder(currentLine.ToString());
+                if (testLine.Length > 0)
+                {
+                    testLine.Append(' ');
+                }
+                testLine.Append(word);
+
+                var width = gfx.MeasureString(testLine.ToString(), font).Width;
+                if (width <= maxWidth)
+                {
+                    currentLine = testLine;
+                }
+                else
+                {
+                    lines.Add(currentLine.ToString());
+                    currentLine = new StringBuilder(word);
+                }
+            }
+
+            if (currentLine.Length > 0)
+            {
+                lines.Add(currentLine.ToString());
+            }
+
+            return lines;
+        }
+
+    }
 }
 
