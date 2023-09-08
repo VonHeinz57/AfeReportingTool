@@ -26,7 +26,7 @@ namespace AfeReportingTool.Templates
 
             //header
             //enhancement - dynamically get the Report Location
-            var header = $"Franklin, TN Smoke Test Report";
+            var header = $"Franklin, KY Smoke Test Report";
             var headerFont = new XFont("Arial", 14);
             var headerXPos = leftAlign;
             var headerYPos = pageWidth * 0.05;

@@ -21,7 +21,7 @@ namespace AfeReportingTool.Services
         {
             var defectsForReport = SelectDefectsToExport(_dbContext);
             
-            var reportName = $"FranklinTnSept2023.pdf";
+            var reportName = $"FranklinKySept2023.pdf";
 
             GeneratePdf(defectsForReport, outputDirectory, reportName, _template);
             
